@@ -7,6 +7,16 @@ const Button = ({cbFunc, text}) => {
   )
 };
 
+const Anecdote = ({anecdote, votes}) => {
+  let voteCount = votes === undefined ? 0 : votes
+  return (
+    <>
+    <p>{anecdote}</p>
+    <p>has {voteCount} votes</p>
+    </>
+  );
+};
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -20,17 +30,46 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState({});
 
   const nextAnecdote = function() {
-    let randIndex = Math.floor(Math.random() * anecdotes.length);
-    console.log(randIndex);
+    const randIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(randIndex);
   };
 
+  const vote = function() {
+    const index = selected;
+    const newPoints = { ...points };
+    newPoints[index] = newPoints[index] === undefined ? 1 : newPoints[index] + 1;
+    setPoints(newPoints);
+  };
+  let sortedEntries = Object.entries(points).sort((entry1, entry2) => {
+    return entry2[1] - entry1[1];
+  });
+
+  let mostVotedIndex = sortedEntries.length === 0 ? null : sortedEntries[0][0];
+
+  if (!mostVotedIndex) {
+    return (
+      <div>
+        <h1>Anecdote of the day</h1>
+        <Anecdote anecdote={anecdotes[selected]} votes={points[selected]}/>
+        <Button cbFunc={vote} text='vote' />
+        <Button cbFunc={nextAnecdote} text='next anecdote' />
+        <h1>Anecdote with the most votes</h1>
+        <p>No votes yet!</p>
+      </div>
+    )
+  }
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
+      <h1>Anecdote of the day</h1>
+      <Anecdote anecdote={anecdotes[selected]} votes={points[selected]}/>
+      <Button cbFunc={vote} text='vote' />
       <Button cbFunc={nextAnecdote} text='next anecdote' />
+      <h1>Anecdote with the most votes</h1>
+      <Anecdote anecdote={anecdotes[mostVotedIndex]} votes={points[mostVotedIndex]} />
     </div>
   )
 }
