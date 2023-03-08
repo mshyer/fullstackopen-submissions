@@ -1,8 +1,13 @@
-const People = ({contacts}) => {
+const People = ({contacts, handleDelete }) => {
   return (
     <>
       {contacts.map(contact => {
-        return <p key={contact.id}>{contact.name}: {contact.number}</p>
+        return (
+        <div key={contact.id}>
+          <p>{contact.name}: {contact.number}</p>
+          <button type='button' onClick={handleDelete.bind(this, contact.id)}>delete</button>
+        </div>
+        )
       })}
     </>
   );
