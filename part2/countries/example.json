@@ -1,0 +1,8 @@
+{
+  "coord":
+    {"lon":2.33,"lat":48.87},
+  "weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04n"}],
+  "base":"stations",
+  "main":{"temp":285.65,"feels_like":285.25,"temp_min":284.72,"temp_max":286.18,"pressure":991,"humidity":88},
+  "visibility":10000,
+  "wind":{"speed":6.69,"deg":230,"gust":14.4},"clouds":{"all":75},"dt":1678306525,"sys":{"type":2,"id":2041230,"country":"FR","sunrise":1678256379,"sunset":1678297425},"timezone":3600,"id":6545270,"name":"Palais-Royal","cod":200}
