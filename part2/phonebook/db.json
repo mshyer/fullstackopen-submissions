@@ -1,24 +1,9 @@
 {
   "persons": [
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Sam Snee",
-      "id": 5,
-      "number": "6666"
-    },
-    {
-      "name": "Sam Sneess",
-      "id": 6,
-      "number": "1111111"
+      "name": "new hope2",
+      "id": 8,
+      "number": "3423424"
     }
   ]
 }

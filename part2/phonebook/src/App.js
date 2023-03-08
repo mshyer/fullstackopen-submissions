@@ -4,6 +4,7 @@ import axios from 'axios';
 import People from './components/People';
 import Filter from './components/Filter';
 import Form from './components/Form'
+import MessageBox from './components/ErrorMessage';
 import services from './services/phonebook';
 
 const App = () => {
@@ -14,6 +15,8 @@ const App = () => {
   //   { name: 'Mary Poppendieck', number: '39-23-6423122', id: 3 }
   // ]);
   const [persons, setPersons] = useState([]);
+  const [messageBox, setMessageBox] = useState(null);
+  const [messageOperation, setMessageOperation] = useState(null);
 
   useEffect(() => {
     services.getAll()
@@ -60,6 +63,14 @@ const App = () => {
     setNewNumber(eve.target.value);
   }
 
+  const toggleMessageBox = function (message, operation) {
+    setMessageBox(message);
+    setMessageOperation(operation);
+    setTimeout(() => {
+      setMessageBox(null);
+    }, 5000);
+  }
+
   const handleNewContact = function(eve) {
     eve.preventDefault();
     if (noDuplicates()) {
@@ -73,6 +84,8 @@ const App = () => {
               response.data
             )
           )
+          toggleMessageBox(`Added ${newName}.`, 'success');
+          
         }).catch(err => {
           console.error('There was an error: ' + err)
         })
@@ -98,13 +111,23 @@ const App = () => {
   const handleDelete = function(id) {
     if (window.confirm('Do you really want to delete the person?')) {
       services.remove(id).then(response => {
+        let name;
         setPersons(
-          persons.filter(person => person.id !== id)
+          persons.filter(person => {
+            if (person.id === id) {
+              name = person.name;
+            }
+            return person.id !== id
+          })
         )
+        toggleMessageBox(`Deleted ${name}.`, 'deleted');
         setFiltered(null);
         setNewName('');
         setNewNumber('');
         
+      }).catch(err => {
+        console.error(err);
+        toggleMessageBox(`The person has already been removed`, 'error');
       })
     }
   };
@@ -122,6 +145,7 @@ const App = () => {
         newName={newName}
         newNumber={newNumber}
         />
+      <MessageBox message={messageBox} operation={messageOperation}/>
       <h2>Numbers</h2>
       <People 
         contacts={filtered === null ? persons : filtered}
